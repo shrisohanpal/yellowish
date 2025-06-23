@@ -1,23 +1,23 @@
-import { useState, useEffect } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap';
-import Message from '../../components/Message';
-import Loader from '../../components/Loader';
-import FormContainer from '../../components/FormContainer';
-import { toast } from 'react-toastify';
+import { useState, useEffect } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { Form, Button } from "react-bootstrap";
+import Message from "../../components/Message";
+import Loader from "../../components/Loader";
+import FormContainer from "../../components/FormContainer";
+import { toast } from "react-toastify";
 import {
   useGetOrderDetailsQuery,
   useUpdateOrderMutation,
-} from '../../slices/ordersApiSlice';
+} from "../../slices/ordersApiSlice";
 
 const OrderEditScreen = () => {
   const { id: orderId } = useParams();
 
-  const [bookName, setBookName] = useState('');
+  const [bookName, setBookName] = useState("");
   const [orderPrice, setOrderPrice] = useState(0);
-  const [orderStatus, setOrderStatus] = useState('');
-  const [paymentStatus, setPaymentStatus] = useState('');
-  const [orderPlatform, setOrderPlatform] = useState('');
+  const [orderStatus, setOrderStatus] = useState("");
+  const [paymentStatus, setPaymentStatus] = useState("");
+  const [orderPlatform, setOrderPlatform] = useState("");
   const [deliveryCharges, setDeliveryCharges] = useState(0);
   const [platformRoyalty, setPlatformRoyalty] = useState(0);
   const [numberofOrders, setNumberofOrders] = useState(0);
@@ -29,9 +29,7 @@ const OrderEditScreen = () => {
     error,
   } = useGetOrderDetailsQuery(orderId);
 
-  const [updateOrder, { isLoading: loadingUpdate }] =
-    useUpdateOrderMutation();
- 
+  const [updateOrder, { isLoading: loadingUpdate }] = useUpdateOrderMutation();
 
   const navigate = useNavigate();
 
@@ -47,11 +45,11 @@ const OrderEditScreen = () => {
         orderPlatform,
         deliveryCharges,
         platformRoyalty,
-        numberofOrders
+        numberofOrders,
       }).unwrap(); // NOTE: here we need to unwrap the Promise to catch any rejection in our catch block
-      toast.success('Order updated');
+      toast.success("Order updated");
       refetch();
-      navigate('/admin/orderlist');
+      navigate("/admin/orderlist");
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }
@@ -70,10 +68,9 @@ const OrderEditScreen = () => {
     }
   }, [order]);
 
-
   return (
     <>
-      <Link to='/admin/orderlist' className='btn btn-light my-3'>
+      <Link to="/admin/orderlist" className="btn btn-light my-3">
         Go Back
       </Link>
       <FormContainer>
@@ -82,93 +79,105 @@ const OrderEditScreen = () => {
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Message variant='danger'>{error.data.message}</Message>
+          <Message variant="danger">{error.data.message}</Message>
         ) : (
           <Form onSubmit={submitHandler}>
-            <Form.Group controlId='bookname'>
+            <Form.Group controlId="bookname">
               <Form.Label>Book Name</Form.Label>
               <Form.Control
-                type='name'
-                placeholder='Enter Book Name'
+                type="name"
+                placeholder="Enter Book Name"
                 value={bookName}
                 onChange={(e) => setBookName(e.target.value)}
               ></Form.Control>
             </Form.Group>
 
-            <Form.Group controlId='orderprice'>
+            <Form.Group controlId="orderprice">
               <Form.Label>Order Price</Form.Label>
               <Form.Control
-                type='number'
-                placeholder='Enter Order Price'
+                type="number"
+                placeholder="Enter Order Price"
                 value={orderPrice}
                 onChange={(e) => setOrderPrice(e.target.value)}
               ></Form.Control>
             </Form.Group>
 
-            <Form.Group controlId='orderstatus'>
+            <Form.Group controlId="orderstatus">
               <Form.Label>Order Status</Form.Label>
               <Form.Control
-                type='text'
-                placeholder='Enter Order Status'
+                as="select"
                 value={orderStatus}
                 onChange={(e) => setOrderStatus(e.target.value)}
-              ></Form.Control>
+              >
+                <option value="">Select Order Status</option>
+                <option value="PreOrder">Pre Order</option>
+                <option value="Completed">Completed</option>
+                <option value="Returned">Returned</option>
+              </Form.Control>
             </Form.Group>
 
-            <Form.Group controlId='paymentstatus'>
+            <Form.Group controlId="paymentstatus">
               <Form.Label>Payment Status</Form.Label>
               <Form.Control
-                type='text'
-                placeholder='Enter Payment Status'
+                as="select"
                 value={paymentStatus}
                 onChange={(e) => setPaymentStatus(e.target.value)}
-              ></Form.Control>
+              >
+                <option value="">Select Payment Status</option>
+                <option value="Pending">Pending</option>
+                <option value="Completed">Completed</option>
+              </Form.Control>
             </Form.Group>
 
-            <Form.Group controlId='orderplatform'>
+            <Form.Group controlId="orderplatform">
               <Form.Label>Order Platform</Form.Label>
               <Form.Control
-                type='text'
-                placeholder='Enter Order Platform'
+                as="select"
                 value={orderPlatform}
                 onChange={(e) => setOrderPlatform(e.target.value)}
-              ></Form.Control>
+              >
+                {" "}
+                <option value="">Select Order Platform</option>
+                <option value="Amazon">Amazon</option>
+                <option value="Flipkart">Flipkart</option>
+                <option value="Kindle">Kindle</option>
+              </Form.Control>
             </Form.Group>
 
-            <Form.Group controlId='deliverycharges'>
+            <Form.Group controlId="deliverycharges">
               <Form.Label>Delivery Charges</Form.Label>
               <Form.Control
-                type='number'
-                placeholder='Enter Delivery Charges'
+                type="number"
+                placeholder="Enter Delivery Charges"
                 value={deliveryCharges}
                 onChange={(e) => setDeliveryCharges(e.target.value)}
               ></Form.Control>
             </Form.Group>
 
-            <Form.Group controlId='platformroyalty'>
+            <Form.Group controlId="platformroyalty">
               <Form.Label>Platform Royalty</Form.Label>
               <Form.Control
-                type='number'
-                placeholder='Enter Platform Royalty'
+                type="number"
+                placeholder="Enter Platform Royalty"
                 value={platformRoyalty}
                 onChange={(e) => setPlatformRoyalty(e.target.value)}
               ></Form.Control>
             </Form.Group>
 
-            <Form.Group controlId='numberoforders'>
+            <Form.Group controlId="numberoforders">
               <Form.Label>Number of Orders</Form.Label>
               <Form.Control
-                type='number'
-                placeholder='Enter Number of Orders'
+                type="number"
+                placeholder="Enter Number of Orders"
                 value={numberofOrders}
                 onChange={(e) => setNumberofOrders(e.target.value)}
               ></Form.Control>
             </Form.Group>
 
             <Button
-              type='submit'
-              variant='primary'
-              style={{ marginTop: '1rem' }}
+              type="submit"
+              variant="primary"
+              style={{ marginTop: "1rem" }}
             >
               Update
             </Button>
