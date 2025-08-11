@@ -1,7 +1,7 @@
-import { Pagination } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Pagination } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
-const Paginate = ({ pages, page, isAdmin = false, keyword = '' }) => {
+const Paginate = ({ pages, page, isAdmin = false, keyword = "" }) => {
   return (
     pages > 1 && (
       <Pagination>
@@ -14,7 +14,7 @@ const Paginate = ({ pages, page, isAdmin = false, keyword = '' }) => {
                 ? keyword
                   ? `/search/${keyword}/page/${x + 1}`
                   : `/page/${x + 1}`
-                : `/admin/productlist/${x + 1}`
+                : `/admin/booklist/${x + 1}`
             }
             active={x + 1 === page}
           >
