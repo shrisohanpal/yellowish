@@ -1,5 +1,5 @@
-import { BOOKS_URL } from '../constants';
-import { apiSlice } from './apiSlice';
+import { BOOKS_URL } from "../constants";
+import { apiSlice } from "./apiSlice";
 
 export const booksApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -9,7 +9,7 @@ export const booksApiSlice = apiSlice.injectEndpoints({
         params: { keyword, pageNumber },
       }),
       keepUnusedDataFor: 5,
-      providesTags: ['Books'],
+      providesTags: ["Books"],
     }),
     getBookDetails: builder.query({
       query: (bookId) => ({
@@ -20,39 +20,39 @@ export const booksApiSlice = apiSlice.injectEndpoints({
     createBook: builder.mutation({
       query: () => ({
         url: `${BOOKS_URL}`,
-        method: 'POST',
+        method: "POST",
       }),
-      invalidatesTags: ['Book'],
+      invalidatesTags: ["Book"],
     }),
     updateBook: builder.mutation({
       query: (data) => ({
         url: `${BOOKS_URL}/${data.bookId}`,
-        method: 'PUT',
+        method: "PUT",
         body: data,
       }),
-      invalidatesTags: ['Books'],
+      invalidatesTags: ["Books"],
     }),
     uploadBookImage: builder.mutation({
       query: (data) => ({
         url: `/api/upload`,
-        method: 'POST',
+        method: "POST",
         body: data,
       }),
     }),
     deleteBook: builder.mutation({
       query: (bookId) => ({
         url: `${BOOKS_URL}/${bookId}`,
-        method: 'DELETE',
+        method: "DELETE",
       }),
-      providesTags: ['Book'],
+      providesTags: ["Book"],
     }),
     createReview: builder.mutation({
       query: (data) => ({
         url: `${BOOKS_URL}/${data.bookId}/reviews`,
-        method: 'POST',
+        method: "POST",
         body: data,
       }),
-      invalidatesTags: ['Book'],
+      invalidatesTags: ["Book"],
     }),
     getTopBooks: builder.query({
       query: () => `${BOOKS_URL}/top`,

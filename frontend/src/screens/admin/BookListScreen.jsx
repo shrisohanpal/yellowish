@@ -1,28 +1,29 @@
-import { Table, Button, Row, Col } from 'react-bootstrap';
-import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
-import { Link, useParams } from 'react-router-dom';
-import Message from '../../components/Message';
-import Loader from '../../components/Loader';
-import Paginate from '../../components/Paginate';
+import { Table, Button, Row, Col } from "react-bootstrap";
+import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
+import { Link, useParams } from "react-router-dom";
+import Message from "../../components/Message";
+import Loader from "../../components/Loader";
+import Paginate from "../../components/Paginate";
 import {
   useGetBooksQuery,
   useDeleteBookMutation,
   useCreateBookMutation,
-} from '../../slices/booksApiSlice';
-import { toast } from 'react-toastify';
+} from "../../slices/booksApiSlice";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const BookListScreen = () => {
   const { pageNumber } = useParams();
+  const navigate = useNavigate();
 
   const { data, isLoading, error, refetch } = useGetBooksQuery({
     pageNumber,
   });
 
-  const [deleteBook, { isLoading: loadingDelete }] =
-    useDeleteBookMutation();
+  const [deleteBook, { isLoading: loadingDelete }] = useDeleteBookMutation();
 
   const deleteHandler = async (id) => {
-    if (window.confirm('Are you sure')) {
+    if (window.confirm("Are you sure")) {
       try {
         await deleteBook(id);
         refetch();
@@ -32,13 +33,14 @@ const BookListScreen = () => {
     }
   };
 
-  const [createBook, { isLoading: loadingCreate }] = 
-    useCreateBookMutation();
+  const [createBook, { isLoading: loadingCreate }] = useCreateBookMutation();
 
   const createBookHandler = async () => {
-    if (window.confirm('Are you sure you want to create a new book?')) {
+    if (window.confirm("Are you sure you want to create a new book?")) {
       try {
-        await createBook();
+        const result = await createBook().unwrap();
+        //console.log(result._id);
+        navigate(`/admin/book/${result._id}/edit`);
         refetch();
       } catch (err) {
         toast.error(err?.data?.message || err.error);
@@ -48,12 +50,12 @@ const BookListScreen = () => {
 
   return (
     <>
-      <Row className='align-items-center'>
+      <Row className="align-items-center">
         <Col>
           <h1>Books</h1>
         </Col>
-        <Col className='text-end'>
-          <Button className='my-3' onClick={createBookHandler}>
+        <Col className="text-end">
+          <Button className="my-3" onClick={createBookHandler}>
             <FaPlus /> Create Book
           </Button>
         </Col>
@@ -64,10 +66,10 @@ const BookListScreen = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{error.data.message}</Message>
+        <Message variant="danger">{error.data.message}</Message>
       ) : (
         <>
-          <Table striped bordered hover responsive className='table-sm'>
+          <Table striped bordered hover responsive className="table-sm">
             <thead>
               <tr>
                 <th>S NO</th>
@@ -94,9 +96,9 @@ const BookListScreen = () => {
               </tr>
             </thead>
             <tbody>
-              {data.books.map((book,index) => (
+              {data.books.map((book, index) => (
                 <tr key={book._id}>
-                  <td>{index+1}</td>
+                  <td>{index + 1}</td>
                   <td>{book.title}</td>
                   <td>{book.author}</td>
                   <td>{book.sellingPrice}</td>
@@ -116,17 +118,17 @@ const BookListScreen = () => {
                     <Button
                       as={Link}
                       to={`/admin/book/${book._id}/edit`}
-                      variant='light'
-                      className='btn-sm mx-2'
+                      variant="light"
+                      className="btn-sm mx-2"
                     >
                       <FaEdit />
                     </Button>
                     <Button
-                      variant='danger'
-                      className='btn-sm'
+                      variant="danger"
+                      className="btn-sm"
                       onClick={() => deleteHandler(book._id)}
                     >
-                      <FaTrash style={{ color: 'white' }} />
+                      <FaTrash style={{ color: "white" }} />
                     </Button>
                   </td>
                 </tr>
