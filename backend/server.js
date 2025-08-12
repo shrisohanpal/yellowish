@@ -7,6 +7,7 @@ import connectDB from "./config/db.js";
 import bookRoutes from "./routes/bookRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
+import dashboardRoutes from "./routes/dashboardRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 
@@ -23,6 +24,7 @@ app.use(cookieParser());
 app.use("/api/books", bookRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/upload", uploadRoutes);
 
 if (process.env.NODE_ENV === "production") {

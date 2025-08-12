@@ -2,9 +2,15 @@ import mongoose from "mongoose";
 
 const orderSchema = mongoose.Schema(
   {
-    bookName: {
-      type: String,
+    book: {
+      type: mongoose.Schema.Types.ObjectId,
       // required: true,
+      ref: "Book",
+    },
+    author: {
+      type: mongoose.Schema.Types.ObjectId,
+      // required: true,
+      ref: "User",
     },
     orderPrice: {
       type: Number,
