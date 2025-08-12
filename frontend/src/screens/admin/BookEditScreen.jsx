@@ -10,6 +10,7 @@ import {
   useUpdateBookMutation,
   useUploadBookImageMutation,
 } from "../../slices/booksApiSlice";
+import { useGetUsersQuery } from "../../slices/usersApiSlice";
 
 const BookEditScreen = () => {
   const { id: bookId } = useParams();
@@ -65,6 +66,11 @@ const BookEditScreen = () => {
     useUploadBookImageMutation();
 
   const navigate = useNavigate();
+  const {
+    data: users,
+    isLoading: usersLoading,
+    error: usersError,
+  } = useGetUsersQuery();
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -98,7 +104,7 @@ const BookEditScreen = () => {
   useEffect(() => {
     if (book) {
       setTitle(book.title || "");
-      setAuthor(book.author || "");
+      setAuthor(book.author.userName || "");
       setImage(book.image || "");
       setSellingPrice(book.sellingPrice ?? 0);
       setPrintingCost(book.printingCost ?? 0);
@@ -155,11 +161,21 @@ const BookEditScreen = () => {
             <Form.Group controlId="author">
               <Form.Label>Author</Form.Label>
               <Form.Control
-                type="name"
-                placeholder="Enter Author Id"
+                as="select"
                 value={author}
                 onChange={(e) => setAuthor(e.target.value)}
-              ></Form.Control>
+              >
+                <option value="">Select Author</option>
+                {users.map((user) => (
+                  <option key={user._id} value={user._id}>
+                    {
+                      user.firstName /*}
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    {user.userName*/
+                    }
+                  </option>
+                ))}
+              </Form.Control>
             </Form.Group>
 
             <Form.Group controlId="image">

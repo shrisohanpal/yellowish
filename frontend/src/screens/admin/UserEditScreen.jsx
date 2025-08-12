@@ -92,6 +92,7 @@ const UserEditScreen = () => {
                 onChange={(e) => setFirstName(e.target.value)}
               ></Form.Control>
             </Form.Group>
+
             <Form.Group className="my-2" controlId="name">
               <Form.Label>Last Name</Form.Label>
               <Form.Control
@@ -101,6 +102,17 @@ const UserEditScreen = () => {
                 onChange={(e) => setLastName(e.target.value)}
               ></Form.Control>
             </Form.Group>
+
+            <Form.Group className="my-2" controlId="name">
+              <Form.Label>UserName</Form.Label>
+              <Form.Control
+                type="name"
+                placeholder="Enter UserName"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
             <Form.Group className="my-2" controlId="email">
               <Form.Label>Email Address</Form.Label>
               <Form.Control

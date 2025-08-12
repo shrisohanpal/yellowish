@@ -19,9 +19,10 @@ const getBooks = asyncHandler(async (req, res) => {
 
   const count = await Book.countDocuments({ ...keyword });
   const books = await Book.find({ ...keyword })
+    .populate("author", "userName")
     .limit(pageSize)
     .skip(pageSize * (page - 1));
-
+  //console.log(books);
   res.json({ books, page, pages: Math.ceil(count / pageSize) });
 });
 
@@ -41,7 +42,10 @@ const getBookById = asyncHandler(async (req, res) => {
   // NOTE: checking for valid ObjectId to prevent CastError moved to separate
   // middleware. See README for more info.
 
-  const book = await Book.findById(req.params.id);
+  const book = await Book.findById(req.params.id).populate(
+    "author",
+    "userName"
+  );
   if (book) {
     return res.json(book);
   } else {
