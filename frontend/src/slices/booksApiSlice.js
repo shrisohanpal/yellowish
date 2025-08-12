@@ -11,6 +11,13 @@ export const booksApiSlice = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5,
       providesTags: ["Books"],
     }),
+    getAllBooks: builder.query({
+      query: () => ({
+        url: `${BOOKS_URL}/all`,
+      }),
+      keepUnusedDataFor: 5,
+      providesTags: ["Books"],
+    }),
     getMyBooks: builder.query({
       query: ({ keyword, pageNumber }) => ({
         url: `${BOOKS_URL}/mine`,
@@ -71,6 +78,7 @@ export const booksApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useGetBooksQuery,
+  useGetAllBooksQuery,
   useGetMyBooksQuery,
   useGetBookDetailsQuery,
   useCreateBookMutation,

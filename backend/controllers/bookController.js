@@ -26,6 +26,15 @@ const getBooks = asyncHandler(async (req, res) => {
   res.json({ books, page, pages: Math.ceil(count / pageSize) });
 });
 
+// @desc    Fetch all books
+// @route   GET /api/books
+// @access  Public
+const getAllBooks = asyncHandler(async (req, res) => {
+  const books = await Book.find();
+  // console.log(books);
+  res.json(books);
+});
+
 // @desc    Fetch books of a single author
 // @route   GET /api/books/mine
 // @access  Private
@@ -186,6 +195,7 @@ const getTopBooks = asyncHandler(async (req, res) => {
 
 export {
   getBooks,
+  getAllBooks,
   getMyBooks,
   getBookById,
   createBook,

@@ -68,7 +68,7 @@ const OrderListScreen = () => {
           <thead>
             <tr>
               <th>S No</th>
-              <th>Book Name</th>
+              {/* <th>Book Name</th> */}
               <th>Order Price</th>
               <th>Order Status</th>
               <th>Payment Status</th>
@@ -83,7 +83,7 @@ const OrderListScreen = () => {
             {orders.map((order, index) => (
               <tr key={order._id}>
                 <td>{index + 1}</td>
-                <td>{order.bookName}</td>
+                {/*  <td>{order.bookName}</td> */}
                 <td>{order.orderPrice}</td>
                 <td>{order.orderStatus}</td>
                 <td>{order.paymentStatus}</td>

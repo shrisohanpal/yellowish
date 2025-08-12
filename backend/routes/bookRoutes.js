@@ -2,6 +2,7 @@ import express from "express";
 const router = express.Router();
 import {
   getBooks,
+  getAllBooks,
   getMyBooks,
   getBookById,
   createBook,
@@ -14,6 +15,7 @@ import { protect, admin } from "../middleware/authMiddleware.js";
 import checkObjectId from "../middleware/checkObjectId.js";
 
 router.route("/").get(getBooks).post(protect, admin, createBook);
+router.route("/all").get(protect, admin, getAllBooks);
 router.route("/mine").get(getMyBooks);
 
 router.route("/:id/reviews").post(protect, checkObjectId, createBookReview);

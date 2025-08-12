@@ -3,6 +3,7 @@ import { Card, Row, Col, ListGroup } from "react-bootstrap";
 import { useGetAuthorDashboardDetailsQuery } from "../slices/dashboardApiSlice";
 
 const AuthorDashboard = () => {
+  const [totalBooks, setTotalBooks] = useState(1);
   const [totalOrders, setTotalOrders] = useState(0);
   const [totalRoyalty, setTotalRoyalty] = useState(0);
   const [amazonOrders, setAmazonOrders] = useState(0);
@@ -36,6 +37,24 @@ const AuthorDashboard = () => {
                 <ListGroup>
                   <ListGroup.Item>
                     <h2>
+                      <strong>Total Books</strong>
+                    </h2>
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <h2>{totalBooks}</h2>
+                  </ListGroup.Item>
+                </ListGroup>
+              </Col>
+            </Row>
+          </Card>
+        </Col>
+        <Col>
+          <Card>
+            <Row>
+              <Col>
+                <ListGroup>
+                  <ListGroup.Item>
+                    <h2>
                       <strong>Total Orders</strong>
                     </h2>
                   </ListGroup.Item>
@@ -54,11 +73,11 @@ const AuthorDashboard = () => {
                 <ListGroup>
                   <ListGroup.Item>
                     <h2>
-                      <strong>Total Royalty</strong>
+                      <strong> Royalty</strong>
                     </h2>
                   </ListGroup.Item>
                   <ListGroup.Item>
-                    <h2>{totalRoyalty}</h2>
+                    <h2>₹{totalRoyalty}</h2>
                   </ListGroup.Item>
                 </ListGroup>
               </Col>

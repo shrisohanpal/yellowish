@@ -9,6 +9,7 @@ import {
   useGetOrderDetailsQuery,
   useUpdateOrderMutation,
 } from "../../slices/ordersApiSlice";
+import { useGetAllBooksQuery } from "../../slices/booksApiSlice";
 
 const OrderEditScreen = () => {
   const { id: orderId } = useParams();
@@ -32,6 +33,14 @@ const OrderEditScreen = () => {
   const [updateOrder, { isLoading: loadingUpdate }] = useUpdateOrderMutation();
 
   const navigate = useNavigate();
+
+  const {
+    data: books,
+    isLoading: booksLoading,
+    error: booksError,
+  } = useGetAllBooksQuery();
+
+  console.log(books);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -57,7 +66,7 @@ const OrderEditScreen = () => {
 
   useEffect(() => {
     if (order) {
-      setBookName(order.bookName);
+      // setBookName(order.book.title);
       setOrderPrice(order.orderPrice);
       setOrderStatus(order.orderStatus);
       setPaymentStatus(order.paymentStatus);
@@ -82,14 +91,21 @@ const OrderEditScreen = () => {
           <Message variant="danger">{error.data.message}</Message>
         ) : (
           <Form onSubmit={submitHandler}>
-            <Form.Group controlId="bookname">
-              <Form.Label>Book Name</Form.Label>
+            <Form.Group controlId="book">
+              <Form.Label>Book</Form.Label>
+
               <Form.Control
-                type="name"
-                placeholder="Enter Book Name"
+                as="select"
                 value={bookName}
                 onChange={(e) => setBookName(e.target.value)}
-              ></Form.Control>
+              >
+                <option value="">Select Book</option>
+                {books.map((book) => (
+                  <option key={book._id} value={book._id}>
+                    {book.title}
+                  </option>
+                ))}
+              </Form.Control>
             </Form.Group>
 
             <Form.Group controlId="orderprice">
