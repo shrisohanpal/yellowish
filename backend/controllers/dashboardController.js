@@ -35,7 +35,7 @@ const getAuthorDashboard = asyncHandler(async (req, res) => {
 
   if (user) {
     res.json({
-      totalOrders: await Order.countDocuments({}),
+      totalOrders: await Order.countDocuments({ author: req.user._id }),
       totalRoyalty: 56781, //await Order.countDocuments({}),
       amazonOrders: await Order.countDocuments({ orderPlatform: "Amazon" }),
       flipkartOrders: await Order.countDocuments({

@@ -39,8 +39,8 @@ const getAllBooks = asyncHandler(async (req, res) => {
 // @route   GET /api/books/mine
 // @access  Private
 const getMyBooks = asyncHandler(async (req, res) => {
-  const books = await Book.find();
-  //const books = await Book.find({ user: req.user._id });
+  //const books = await Book.find();
+  const books = await Book.find({ author: req.user._id });
   res.json({ books });
 });
 

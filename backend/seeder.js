@@ -39,7 +39,7 @@ const importData = async () => {
     await Book.insertMany(author2Books);
     await Book.insertMany(author3Books);
 
-    await Order.insertMany(orders);
+    // await Order.insertMany(orders);
 
     console.log("Data Imported!".green.inverse);
     process.exit();
