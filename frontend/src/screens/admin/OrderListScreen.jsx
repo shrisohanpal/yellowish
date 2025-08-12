@@ -1,21 +1,25 @@
-import { Table, Button } from 'react-bootstrap';
-import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
-import {  Link, useParams } from 'react-router-dom';
-import Message from '../../components/Message';
-import Loader from '../../components/Loader';
-import { useGetOrdersQuery, useDeleteOrderMutation } from '../../slices/ordersApiSlice';
-import { toast } from 'react-toastify';
-
+import { Table, Button, Row, Col } from "react-bootstrap";
+import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
+import { Link, useParams } from "react-router-dom";
+import Message from "../../components/Message";
+import Loader from "../../components/Loader";
+import {
+  useGetOrdersQuery,
+  useDeleteOrderMutation,
+  useCreateOrderMutation,
+} from "../../slices/ordersApiSlice";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const OrderListScreen = () => {
   const { data: orders, isLoading, error, refetch } = useGetOrdersQuery();
- // const { pageNumber } = useParams();
+  // const { pageNumber } = useParams();
+  const navigate = useNavigate();
 
-  const [deleteOrder, { isLoading: loadingDelete }] =
-    useDeleteOrderMutation();
+  const [deleteOrder, { isLoading: loadingDelete }] = useDeleteOrderMutation();
 
   const deleteHandler = async (id) => {
-    if (window.confirm('Are you sure')) {
+    if (window.confirm("Are you sure")) {
       try {
         await deleteOrder(id);
         refetch();
@@ -24,31 +28,43 @@ const OrderListScreen = () => {
       }
     }
   };
-/*
-  const [createBook, { isLoading: loadingCreate }] =
-    useCreateBookMutation();
 
-  const createBookHandler = async () => {
-    if (window.confirm('Are you sure you want to create a new book?')) {
+  const [createOrder, { isLoading: loadingCreate }] = useCreateOrderMutation();
+
+  const createOrderHandler = async () => {
+    if (window.confirm("Are you sure you want to create a new book?")) {
       try {
-        await createBook();
+        const result = await createOrder().unwrap();
+        navigate(`/admin/order/${result._id}/edit`);
         refetch();
       } catch (err) {
         toast.error(err?.data?.message || err.error);
       }
     }
-  };*/
+  };
   return (
     <>
-      <h1>Orders</h1>
+      <Row className="align-items-center">
+        <Col>
+          <h1>Orders</h1>
+        </Col>
+        <Col className="text-end">
+          <Button className="my-3" onClick={createOrderHandler}>
+            <FaPlus /> Create Order
+          </Button>
+        </Col>
+      </Row>
+
+      {/*loadingCreate && <Loader />}
+      {loadingDelete && <Loader />*/}
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>
+        <Message variant="danger">
           {error?.data?.message || error.error}
         </Message>
       ) : (
-        <Table striped bordered hover responsive className='table-sm'>
+        <Table striped bordered hover responsive className="table-sm">
           <thead>
             <tr>
               <th>S No</th>
@@ -66,7 +82,7 @@ const OrderListScreen = () => {
           <tbody>
             {orders.map((order, index) => (
               <tr key={order._id}>
-                <td>{index+1}</td>
+                <td>{index + 1}</td>
                 <td>{order.bookName}</td>
                 <td>{order.orderPrice}</td>
                 <td>{order.orderStatus}</td>
@@ -77,22 +93,22 @@ const OrderListScreen = () => {
                 <td>{order.createdAt}</td>
                 <td>{order.numberofOrders}</td>
                 <td>
-                    <Button
-                        as={Link}
-                        to={`/admin/order/${order._id}/edit`}
-                        variant='light'
-                        className='btn-sm mx-2'
-                        >
-                        <FaEdit />
-                    </Button>
-                    <Button
-                        variant='danger'
-                        className='btn-sm'
-                        onClick={() => deleteHandler(order._id)}
-                        >
-                    <FaTrash style={{ color: 'white' }} />
-                        </Button>
-                  </td>
+                  <Button
+                    as={Link}
+                    to={`/admin/order/${order._id}/edit`}
+                    variant="light"
+                    className="btn-sm mx-2"
+                  >
+                    <FaEdit />
+                  </Button>
+                  <Button
+                    variant="danger"
+                    className="btn-sm"
+                    onClick={() => deleteHandler(order._id)}
+                  >
+                    <FaTrash style={{ color: "white" }} />
+                  </Button>
+                </td>
               </tr>
             ))}
           </tbody>
