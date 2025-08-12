@@ -23,15 +23,33 @@ const BookEditScreen = () => {
   const [handlingCost, setHandlingCost] = useState(0);
 
   const [amazonPlatformFee, setAmazonPlatformFee] = useState(0);
-  const [amazonRoyalty, setAmazonRoyalty] = useState(0);
+  var amazonRoyalty =
+    sellingPrice -
+    printingCost -
+    packagingCost -
+    handlingCost -
+    amazonPlatformFee;
+  //const [amazonRoyalty, setAmazonRoyalty] = useState(0);
   const [amazonUrl, setAmazonUrl] = useState("");
 
   const [flipkartPlatformFee, setFlipkartPlatformFee] = useState(0);
-  const [flipkartRoyalty, setFlipkartRoyalty] = useState(0);
+  var flipkartRoyalty =
+    sellingPrice -
+    printingCost -
+    packagingCost -
+    handlingCost -
+    flipkartPlatformFee;
+  //const [flipkartRoyalty, setFlipkartRoyalty] = useState(0);
   const [flipkartUrl, setFlipkartUrl] = useState("");
 
   const [kindlePlatformFee, setKindlePlatformFee] = useState(0);
-  const [kindleRoyalty, setKindleRoyalty] = useState(0);
+  var kindleRoyalty =
+    sellingPrice -
+    printingCost -
+    packagingCost -
+    handlingCost -
+    kindlePlatformFee;
+  //const [kindleRoyalty, setKindleRoyalty] = useState(0);
   const [kindleUrl, setKindleUrl] = useState("");
 
   const {
@@ -87,13 +105,13 @@ const BookEditScreen = () => {
       setPackagingCost(book.packagingCost ?? 0);
       setHandlingCost(book.handlingCost ?? 0);
       setAmazonPlatformFee(book.amazonPlatformFee ?? 0);
-      setAmazonRoyalty(book.amazonRoyalty ?? 0);
+      //setAmazonRoyalty(book.amazonRoyalty ?? 0);
       setAmazonUrl(book.amazonUrl || "");
       setFlipkartPlatformFee(book.flipkartPlatformFee ?? 0);
-      setFlipkartRoyalty(book.flipkartRoyalty ?? 0);
+      //setFlipkartRoyalty(book.flipkartRoyalty ?? 0);
       setFlipkartUrl(book.flipkartUrl || "");
       setKindlePlatformFee(book.kindlePlatformFee ?? 0);
-      setKindleRoyalty(book.kindleRoyalty ?? 0);
+      // setKindleRoyalty(book.kindleRoyalty ?? 0);
       setKindleUrl(book.kindleUrl || "");
     }
   }, [book]);
@@ -214,7 +232,7 @@ const BookEditScreen = () => {
                 type="number"
                 placeholder="Enter Amazon Royalty"
                 value={amazonRoyalty}
-                onChange={(e) => setAmazonRoyalty(e.target.value)}
+                //onChange={(e) => setAmazonRoyalty(e.target.value)}
               ></Form.Control>
             </Form.Group>
             <Form.Group controlId="amazonUrl">
@@ -242,7 +260,7 @@ const BookEditScreen = () => {
                 type="number"
                 placeholder="Enter Flipkart Royalty"
                 value={flipkartRoyalty}
-                onChange={(e) => setFlipkartRoyalty(e.target.value)}
+                //onChange={(e) => setFlipkartRoyalty(e.target.value)}
               ></Form.Control>
             </Form.Group>
             <Form.Group controlId="flipkartUrl">
@@ -270,7 +288,7 @@ const BookEditScreen = () => {
                 type="number"
                 placeholder="Enter Kindle Royalty"
                 value={kindleRoyalty}
-                onChange={(e) => setKindleRoyalty(e.target.value)}
+                //onChange={(e) => setKindleRoyalty(e.target.value)}
               ></Form.Control>
             </Form.Group>
             <Form.Group controlId="kindleUrl">

@@ -34,7 +34,11 @@ const Header = () => {
       <Navbar bg="primary" variant="dark" expand="lg" collapseOnSelect>
         <Container>
           <Navbar.Brand as={Link} to="/">
-            <img src={logo} alt="Yellowish" style={{ width: 50 }} />
+            <img
+              src={logo}
+              alt="Yellowish"
+              style={{ width: 50, borderRadius: 25 }}
+            />
             Yellowish Publication
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
