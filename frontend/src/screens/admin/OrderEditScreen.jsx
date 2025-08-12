@@ -14,7 +14,8 @@ import { useGetAllBooksQuery } from "../../slices/booksApiSlice";
 const OrderEditScreen = () => {
   const { id: orderId } = useParams();
 
-  const [bookName, setBookName] = useState("");
+  const [book, setBook] = useState("");
+  const [author, setAuthor] = useState("");
   const [orderPrice, setOrderPrice] = useState(0);
   const [orderStatus, setOrderStatus] = useState("");
   const [paymentStatus, setPaymentStatus] = useState("");
@@ -40,14 +41,13 @@ const OrderEditScreen = () => {
     error: booksError,
   } = useGetAllBooksQuery();
 
-  console.log(books);
-
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
       await updateOrder({
         orderId,
-        bookName,
+        book,
+        author,
         orderPrice,
         orderStatus,
         paymentStatus,
@@ -66,7 +66,8 @@ const OrderEditScreen = () => {
 
   useEffect(() => {
     if (order) {
-      // setBookName(order.book.title);
+      setBook(order.book);
+      setAuthor(book.author);
       setOrderPrice(order.orderPrice);
       setOrderStatus(order.orderStatus);
       setPaymentStatus(order.paymentStatus);
@@ -76,6 +77,12 @@ const OrderEditScreen = () => {
       setNumberofOrders(order.numberofOrders);
     }
   }, [order]);
+
+  const setBookAndAuthor = (e) => {
+    const [bookId, author] = e.target.value.split("|");
+    setBook(bookId);
+    setAuthor(author);
+  };
 
   return (
     <>
@@ -96,12 +103,13 @@ const OrderEditScreen = () => {
 
               <Form.Control
                 as="select"
-                value={bookName}
-                onChange={(e) => setBookName(e.target.value)}
+                value={`${book}|${author}`}
+                // onChange={(e) => setBook(e.target.value)}
+                onChange={setBookAndAuthor}
               >
                 <option value="">Select Book</option>
                 {books.map((book) => (
-                  <option key={book._id} value={book._id}>
+                  <option key={book._id} value={`${book._id}|${book.author}`}>
                     {book.title}
                   </option>
                 ))}
