@@ -7,13 +7,17 @@ import {
   getUsers,
   deleteUser,
   getUserById,
+  createUser,
   updateUser,
 } from "../controllers/userController.js";
 import { protect, admin } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.route("/").get(protect, admin, getUsers);
+router
+  .route("/")
+  .get(protect, admin, getUsers)
+  .post(protect, admin, createUser);
 router.post("/auth", authUser);
 router.post("/logout", logoutUser);
 router

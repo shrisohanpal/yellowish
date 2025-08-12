@@ -1,5 +1,5 @@
-import asyncHandler from '../middleware/asyncHandler.js';
-import Book from '../models/bookModel.js';
+import asyncHandler from "../middleware/asyncHandler.js";
+import Book from "../models/bookModel.js";
 
 // @desc    Fetch all books
 // @route   GET /api/books
@@ -12,7 +12,7 @@ const getBooks = asyncHandler(async (req, res) => {
     ? {
         name: {
           $regex: req.query.keyword,
-          $options: 'i',
+          $options: "i",
         },
       }
     : {};
@@ -23,6 +23,15 @@ const getBooks = asyncHandler(async (req, res) => {
     .skip(pageSize * (page - 1));
 
   res.json({ books, page, pages: Math.ceil(count / pageSize) });
+});
+
+// @desc    Fetch books of a single author
+// @route   GET /api/books/mine
+// @access  Private
+const getMyBooks = asyncHandler(async (req, res) => {
+  const books = await Book.find();
+  //const books = await Book.find({ user: req.user._id });
+  res.json({ books });
 });
 
 // @desc    Fetch single book
@@ -39,7 +48,7 @@ const getBookById = asyncHandler(async (req, res) => {
     // NOTE: this will run if a valid ObjectId but no book was found
     // i.e. book may be null
     res.status(404);
-    throw new Error('Book not found');
+    throw new Error("Book not found");
   }
 });
 
@@ -47,10 +56,9 @@ const getBookById = asyncHandler(async (req, res) => {
 // @route   POST /api/books
 // @access  Private/Admin
 const createBook = asyncHandler(async (req, res) => {
-
   const book = new Book({
-    title: 'Sample Title',
-    image: '/images/sample.jpg',
+    title: "Sample Title",
+    image: "/images/sample.jpg",
   });
   const createdBook = await book.save();
   res.status(201).json(createdBook);
@@ -60,8 +68,24 @@ const createBook = asyncHandler(async (req, res) => {
 // @route   PUT /api/books/:id
 // @access  Private/Admin
 const updateBook = asyncHandler(async (req, res) => {
-  const { title, author, image, sellingPrice, printingCost, packagingCost, handlingCost, amazonPlaformFee, amazonRoyalty, amazonUrl, flipkartPlatformFee, flipkartRoyalty, flipkartUrl, kindlePlatformFee, kindleRoyalty, kindleUrl } =
-    req.body;
+  const {
+    title,
+    author,
+    image,
+    sellingPrice,
+    printingCost,
+    packagingCost,
+    handlingCost,
+    amazonPlaformFee,
+    amazonRoyalty,
+    amazonUrl,
+    flipkartPlatformFee,
+    flipkartRoyalty,
+    flipkartUrl,
+    kindlePlatformFee,
+    kindleRoyalty,
+    kindleUrl,
+  } = req.body;
 
   const book = await Book.findById(req.params.id);
 
@@ -87,7 +111,7 @@ const updateBook = asyncHandler(async (req, res) => {
     res.json(updatedBook);
   } else {
     res.status(404);
-    throw new Error('Book not found');
+    throw new Error("Book not found");
   }
 });
 
@@ -99,10 +123,10 @@ const deleteBook = asyncHandler(async (req, res) => {
 
   if (book) {
     await Book.deleteOne({ _id: book._id });
-    res.json({ message: 'Book removed' });
+    res.json({ message: "Book removed" });
   } else {
     res.status(404);
-    throw new Error('Book not found');
+    throw new Error("Book not found");
   }
 });
 
@@ -121,7 +145,7 @@ const createBookReview = asyncHandler(async (req, res) => {
 
     if (alreadyReviewed) {
       res.status(400);
-      throw new Error('Book already reviewed');
+      throw new Error("Book already reviewed");
     }
 
     const review = {
@@ -140,10 +164,10 @@ const createBookReview = asyncHandler(async (req, res) => {
       book.reviews.length;
 
     await book.save();
-    res.status(201).json({ message: 'Review added' });
+    res.status(201).json({ message: "Review added" });
   } else {
     res.status(404);
-    throw new Error('Book not found');
+    throw new Error("Book not found");
   }
 });
 
@@ -155,9 +179,10 @@ const getTopBooks = asyncHandler(async (req, res) => {
 
   res.json(books);
 });
- 
+
 export {
   getBooks,
+  getMyBooks,
   getBookById,
   createBook,
   updateBook,

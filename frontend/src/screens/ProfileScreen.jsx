@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { FaTimes } from "react-icons/fa";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { useGetMyOrdersQuery } from "../slices/ordersApiSlice";
+import { useGetMyBooksQuery } from "../slices/booksApiSlice";
 import { Link } from "react-router-dom";
 
 const ProfileScreen = () => {
@@ -25,7 +25,7 @@ const ProfileScreen = () => {
 
   const { userInfo } = useSelector((state) => state.auth);
 
-  const { data: orders, isLoading, error } = useGetMyOrdersQuery();
+  const { data, isLoading, error } = useGetMyBooksQuery(1);
 
   useEffect(() => {
     //console.log(userInfo);
@@ -110,47 +110,47 @@ const ProfileScreen = () => {
             {error?.data?.message || error.error}
           </Message>
         ) : (
-          <Table striped hover responsive className="table-sm">
+          <Table striped bordered hover responsive className="table-sm">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>DATE</th>
-                <th>TOTAL</th>
-                <th>PAID</th>
-                <th>DELIVERED</th>
-                <th></th>
+                <th>S_NO</th>
+                <th>Title</th>
+                <th>Selling Price</th>
+                <th>Printing Cost</th>
+                <th>Packaging Cost</th>
+                <th>Handling Cost</th>
+
+                <th>Amazon Platform Fee</th>
+                <th>Amazon Royalty</th>
+                <th>Amazon Url</th>
+
+                <th>Flipkart Platform Fee</th>
+                <th>Flipkart Royalty</th>
+                <th>Flipkart Url</th>
+
+                <th>Kindle Platform Fee</th>
+                <th>Kindle Royalty</th>
+                <th>Kindle Url</th>
               </tr>
             </thead>
             <tbody>
-              {orders.map((order) => (
-                <tr key={order._id}>
-                  <td>{order._id}</td>
-                  <td>{order.createdAt.substring(0, 10)}</td>
-                  <td>{order.totalPrice}</td>
-                  <td>
-                    {order.isPaid ? (
-                      order.paidAt.substring(0, 10)
-                    ) : (
-                      <FaTimes style={{ color: "red" }} />
-                    )}
-                  </td>
-                  <td>
-                    {order.isDelivered ? (
-                      order.deliveredAt.substring(0, 10)
-                    ) : (
-                      <FaTimes style={{ color: "red" }} />
-                    )}
-                  </td>
-                  <td>
-                    <Button
-                      as={Link}
-                      to={`/order/${order._id}`}
-                      className="btn-sm"
-                      variant="light"
-                    >
-                      Details
-                    </Button>
-                  </td>
+              {data.books.map((book, index) => (
+                <tr key={book._id}>
+                  <td>{index + 1}</td>
+                  <td>{book.title}</td>
+                  <td>{book.sellingPrice}</td>
+                  <td>{book.printingCost}</td>
+                  <td>{book.packagingCost}</td>
+                  <td>{book.handlingCost}</td>
+                  <td>{book.amazonPlatformFee}</td>
+                  <td>{book.amazonRoyalty}</td>
+                  <td>{book.amazonUrl}</td>
+                  <td>{book.flipkartPlatformFee}</td>
+                  <td>{book.flipkartRoyalty}</td>
+                  <td>{book.flipkartUrl}</td>
+                  <td>{book.kindlePlatformFee}</td>
+                  <td>{book.kindleRoyalty}</td>
+                  <td>{book.kindleUrl}</td>
                 </tr>
               ))}
             </tbody>

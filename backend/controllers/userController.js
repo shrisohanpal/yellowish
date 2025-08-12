@@ -105,6 +105,15 @@ const getUsers = asyncHandler(async (req, res) => {
   res.json(users);
 });
 
+// @desc    Create a user
+// @route   POST /api/users
+// @access  Private/Admin
+const createUser = asyncHandler(async (req, res) => {
+  const book = new User({});
+  const createdBook = await book.save();
+  res.status(201).json(createdBook);
+});
+
 // @desc    Delete user
 // @route   DELETE /api/users/:id
 // @access  Private/Admin
@@ -171,6 +180,7 @@ export {
   authUser,
   logoutUser,
   getUserProfile,
+  createUser,
   updateUserProfile,
   getUsers,
   deleteUser,
