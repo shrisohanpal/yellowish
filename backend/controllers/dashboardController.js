@@ -33,15 +33,35 @@ const getAdminDashboard = asyncHandler(async (req, res) => {
 const getAuthorDashboard = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
+  const totalRoyaltyData = await Order.aggregate([
+    {
+      $group: {
+        _id: null,
+        totalOrderPrice: { $sum: "$orderPrice" },
+      },
+    },
+  ]);
+
   if (user) {
     res.json({
+      totalBooks: await Book.countDocuments({ author: req.user._id }),
       totalOrders: await Order.countDocuments({ author: req.user._id }),
-      totalRoyalty: 56781, //await Order.countDocuments({}),
-      amazonOrders: await Order.countDocuments({ orderPlatform: "Amazon" }),
+
+      totalRoyalty:
+        totalRoyaltyData.length > 0 ? totalRoyaltyData[0].totalOrderPrice : 0,
+
+      amazonOrders: await Order.countDocuments({
+        author: req.user._id,
+        orderPlatform: "Amazon",
+      }),
       flipkartOrders: await Order.countDocuments({
+        author: req.user._id,
         orderPlatform: "Flipkart",
       }),
-      kindleOrders: await Order.countDocuments({ orderPlatform: "Kindle" }),
+      kindleOrders: await Order.countDocuments({
+        author: req.user._id,
+        orderPlatform: "Kindle",
+      }),
     });
   } else {
     res.status(404);

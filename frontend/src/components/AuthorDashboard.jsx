@@ -3,7 +3,7 @@ import { Card, Row, Col, ListGroup } from "react-bootstrap";
 import { useGetAuthorDashboardDetailsQuery } from "../slices/dashboardApiSlice";
 
 const AuthorDashboard = () => {
-  const [totalBooks, setTotalBooks] = useState(1);
+  const [totalBooks, setTotalBooks] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
   const [totalRoyalty, setTotalRoyalty] = useState(0);
   const [amazonOrders, setAmazonOrders] = useState(0);
@@ -18,6 +18,7 @@ const AuthorDashboard = () => {
 
   useEffect(() => {
     if (dashboardData) {
+      setTotalBooks(dashboardData.totalBooks);
       setTotalOrders(dashboardData.totalOrders);
       setTotalRoyalty(dashboardData.totalRoyalty);
       setAmazonOrders(dashboardData.amazonOrders);
