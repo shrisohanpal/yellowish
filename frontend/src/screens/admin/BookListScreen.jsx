@@ -74,7 +74,7 @@ const BookListScreen = () => {
               <tr>
                 <th>S NO</th>
                 <th>Title</th>
-                <th>Author</th>
+                {/** <th>Author</th>  */}
                 <th>Selling Price</th>
                 <th>Printing Cost</th>
                 <th>Packaging Cost</th>
@@ -100,7 +100,7 @@ const BookListScreen = () => {
                 <tr key={book._id}>
                   <td>{index + 1}</td>
                   <td>{book.title}</td>
-                  <td>{book.author.userName}</td>
+                  {/**   <td>{"book.author"}</td>  */}
                   <td>{book.sellingPrice}</td>
                   <td>{book.printingCost}</td>
                   <td>{book.packagingCost}</td>

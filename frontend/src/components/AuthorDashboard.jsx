@@ -30,7 +30,7 @@ const AuthorDashboard = () => {
     <>
       <div style={{ height: 40 }}></div>
       <Row>
-        <Col>
+        <Col sm={12} md={6} lg={4} xl={4} className="my-3">
           <Card>
             <Row>
               <Col>
@@ -48,7 +48,7 @@ const AuthorDashboard = () => {
             </Row>
           </Card>
         </Col>
-        <Col>
+        <Col sm={12} md={6} lg={4} xl={4} className="my-3">
           <Card>
             <Row>
               <Col>
@@ -66,7 +66,7 @@ const AuthorDashboard = () => {
             </Row>
           </Card>
         </Col>
-        <Col>
+        <Col sm={12} md={6} lg={4} xl={4} className="my-3">
           <Card>
             <Row>
               <Col>
@@ -84,10 +84,8 @@ const AuthorDashboard = () => {
             </Row>
           </Card>
         </Col>
-      </Row>
-      <div style={{ height: 80 }}></div>
-      <Row>
-        <Col>
+
+        <Col sm={12} md={6} lg={4} xl={4} className="my-3">
           <Card>
             <Row>
               <Col>
@@ -106,7 +104,7 @@ const AuthorDashboard = () => {
           </Card>
         </Col>
 
-        <Col>
+        <Col sm={12} md={6} lg={4} xl={4} className="my-3">
           <Card>
             <Row>
               <Col>
@@ -125,7 +123,7 @@ const AuthorDashboard = () => {
           </Card>
         </Col>
 
-        <Col>
+        <Col sm={12} md={6} lg={4} xl={4} className="my-3">
           <Card>
             <Row>
               <Col>

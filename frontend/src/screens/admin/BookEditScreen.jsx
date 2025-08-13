@@ -104,7 +104,7 @@ const BookEditScreen = () => {
   useEffect(() => {
     if (book) {
       setTitle(book.title || "");
-      setAuthor(book.author.userName || "");
+      setAuthor(book.author?._id || "");
       setImage(book.image || "");
       setSellingPrice(book.sellingPrice ?? 0);
       setPrintingCost(book.printingCost ?? 0);
@@ -158,27 +158,25 @@ const BookEditScreen = () => {
               ></Form.Control>
             </Form.Group>
 
-            <Form.Group controlId="author">
-              <Form.Label>Author</Form.Label>
-              <Form.Control
-                as="select"
-                value={author}
-                onChange={(e) => setAuthor(e.target.value)}
-              >
-                <option value="">Select Author</option>
-                {users.map((user) => (
-                  <option key={user._id} value={user._id}>
-                    {
-                      user.firstName /*}
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    {user.userName*/
-                    }
-                  </option>
-                ))}
-              </Form.Control>
-            </Form.Group>
+            {!usersLoading && !usersError && (
+              <Form.Group controlId="author">
+                <Form.Label>Author</Form.Label>
+                <Form.Control
+                  as="select"
+                  value={author}
+                  onChange={(e) => setAuthor(e.target.value)}
+                >
+                  <option value="">Select Author</option>
+                  {users.map((user) => (
+                    <option key={user._id} value={user._id}>
+                      {user.firstName}
+                    </option>
+                  ))}
+                </Form.Control>
+              </Form.Group>
+            )}
 
-            <Form.Group controlId="image">
+            {/*  <Form.Group controlId="image">
               <Form.Label>Image</Form.Label>
               <Form.Control
                 type="text"
@@ -193,6 +191,7 @@ const BookEditScreen = () => {
               ></Form.Control>
               {loadingUpload && <Loader />}
             </Form.Group>
+             */}
 
             <Form.Group controlId="sellingPrice">
               <Form.Label>Selling Price</Form.Label>

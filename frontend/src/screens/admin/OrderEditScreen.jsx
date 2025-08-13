@@ -66,8 +66,8 @@ const OrderEditScreen = () => {
 
   useEffect(() => {
     if (order) {
-      setBook(order.book);
-      setAuthor(book.author);
+      setBook(order.book?._id);
+      setAuthor(book.author?._id);
       setOrderPrice(order.orderPrice);
       setOrderStatus(order.orderStatus);
       setPaymentStatus(order.paymentStatus);

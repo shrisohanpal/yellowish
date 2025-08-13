@@ -49,6 +49,22 @@ const importData = async () => {
   }
 };
 
+const importAdmin = async () => {
+  try {
+    await Order.deleteMany();
+    await Book.deleteMany();
+    await User.deleteMany();
+
+    await User.insertMany(users[0]);
+
+    console.log("Admin Imported!".green.inverse);
+    process.exit();
+  } catch (error) {
+    console.error(`${error}`.red.inverse);
+    process.exit(1);
+  }
+};
+
 const destroyData = async () => {
   try {
     await Order.deleteMany();
@@ -65,6 +81,8 @@ const destroyData = async () => {
 
 if (process.argv[2] === "-d") {
   destroyData();
+} else if (process.argv[2] === "-a") {
+  importAdmin();
 } else {
   importData();
 }
