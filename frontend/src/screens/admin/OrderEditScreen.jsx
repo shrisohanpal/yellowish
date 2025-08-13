@@ -41,6 +41,13 @@ const OrderEditScreen = () => {
     error: booksError,
   } = useGetAllBooksQuery();
 
+  function handleBookChange(e) {
+    setBook(e.target.value);
+    const selectedBook = books.find((b) => b._id === e.target.value);
+    setOrderPrice(selectedBook?.sellingPrice);
+    //console.log(selectedBook?.sellingPrice);
+  }
+
   const submitHandler = async (e) => {
     e.preventDefault();
 
@@ -100,7 +107,7 @@ const OrderEditScreen = () => {
                 <Form.Control
                   as="select"
                   value={book}
-                  onChange={(e) => setBook(e.target.value)}
+                  onChange={handleBookChange}
                 >
                   <option value="">Select Book</option>
                   {books.map((book) => (
