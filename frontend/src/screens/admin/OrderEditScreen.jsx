@@ -43,11 +43,13 @@ const OrderEditScreen = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+
+    const selectedBook = books.find((b) => b._id === book);
     try {
       await updateOrder({
         orderId,
         book,
-        author,
+        author: selectedBook.author,
         orderPrice,
         orderStatus,
         paymentStatus,
@@ -66,23 +68,17 @@ const OrderEditScreen = () => {
 
   useEffect(() => {
     if (order) {
-      setBook(order.book?._id);
-      setAuthor(book.author?._id);
-      setOrderPrice(order.orderPrice);
-      setOrderStatus(order.orderStatus);
-      setPaymentStatus(order.paymentStatus);
-      setOrderPlatform(order.orderPlatform);
-      setDeliveryCharges(order.deliveryCharges);
-      setPlatformRoyalty(order.platformRoyalty);
-      setNumberofOrders(order.numberofOrders);
+      setBook(order.book || "");
+      setAuthor(order.author || "");
+      setOrderPrice(order.orderPrice || 0);
+      setOrderStatus(order.orderStatus || "");
+      setPaymentStatus(order.paymentStatus || "");
+      setOrderPlatform(order.orderPlatform || "");
+      setDeliveryCharges(order.deliveryCharges || 0);
+      setPlatformRoyalty(order.platformRoyalty || 0);
+      setNumberofOrders(order.numberofOrders || 0);
     }
   }, [order]);
-
-  const setBookAndAuthor = (e) => {
-    const [bookId, author] = e.target.value.split("|");
-    setBook(bookId);
-    setAuthor(author);
-  };
 
   return (
     <>
@@ -98,23 +94,23 @@ const OrderEditScreen = () => {
           <Message variant="danger">{error.data.message}</Message>
         ) : (
           <Form onSubmit={submitHandler}>
-            <Form.Group controlId="book">
-              <Form.Label>Book</Form.Label>
-
-              <Form.Control
-                as="select"
-                value={`${book}|${author}`}
-                // onChange={(e) => setBook(e.target.value)}
-                onChange={setBookAndAuthor}
-              >
-                <option value="">Select Book</option>
-                {books.map((book) => (
-                  <option key={book._id} value={`${book._id}|${book.author}`}>
-                    {book.title}
-                  </option>
-                ))}
-              </Form.Control>
-            </Form.Group>
+            {!booksLoading && !booksError && (
+              <Form.Group controlId="book">
+                <Form.Label>Book</Form.Label>
+                <Form.Control
+                  as="select"
+                  value={book}
+                  onChange={(e) => setBook(e.target.value)}
+                >
+                  <option value="">Select Book</option>
+                  {books.map((book) => (
+                    <option key={book._id} value={book._id}>
+                      {book.title}
+                    </option>
+                  ))}
+                </Form.Control>
+              </Form.Group>
+            )}
 
             <Form.Group controlId="orderprice">
               <Form.Label>Order Price</Form.Label>

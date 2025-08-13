@@ -79,7 +79,9 @@ const updateOrder = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
 
   if (order) {
-    order.bookName = req.body.bookName;
+    //console.log("GHJ: " + req.body.author);
+    order.book = req.body.book;
+    order.author = req.body.author;
     order.orderPrice = req.body.orderPrice;
     order.orderStatus = req.body.orderStatus;
     order.paymentStatus = req.body.paymentStatus;
