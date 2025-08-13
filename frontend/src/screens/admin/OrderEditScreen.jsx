@@ -22,7 +22,7 @@ const OrderEditScreen = () => {
   const [orderPlatform, setOrderPlatform] = useState("");
   const [deliveryCharges, setDeliveryCharges] = useState(0);
   const [platformRoyalty, setPlatformRoyalty] = useState(0);
-  const [numberofOrders, setNumberofOrders] = useState(0);
+  const [numberofOrders, setNumberofOrders] = useState(1);
 
   const {
     data: order,

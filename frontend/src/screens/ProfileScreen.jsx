@@ -115,22 +115,24 @@ const ProfileScreen = () => {
               <tr>
                 <th>S_NO</th>
                 <th>Title</th>
-                <th>Selling Price</th>
+                <th>Selling Price</th>{" "}
+                {/** 
                 <th>Printing Cost</th>
                 <th>Packaging Cost</th>
                 <th>Handling Cost</th>
 
-                <th>Amazon Platform Fee</th>
-                <th>Amazon Royalty</th>
+                <th>Amazon Platform Fee</th> */}
+                <th>Amazon Royalty</th>{" "}
+                {/** 
                 <th>Amazon Url</th>
-
-                <th>Flipkart Platform Fee</th>
-                <th>Flipkart Royalty</th>
+                <th>Flipkart Platform Fee</th> */}
+                <th>Flipkart Royalty</th>{" "}
+                {/**
                 <th>Flipkart Url</th>
-
-                <th>Kindle Platform Fee</th>
-                <th>Kindle Royalty</th>
-                <th>Kindle Url</th>
+                <th>Kindle Platform Fee</th>  */}
+                <th>Kindle Royalty</th>{" "}
+                {/**
+                <th>Kindle Url</th>  */}
               </tr>
             </thead>
             <tbody>
@@ -138,19 +140,23 @@ const ProfileScreen = () => {
                 <tr key={book._id}>
                   <td>{index + 1}</td>
                   <td>{book.title}</td>
-                  <td>{book.sellingPrice}</td>
+                  <td>{book.sellingPrice}</td>{" "}
+                  {/** 
                   <td>{book.printingCost}</td>
                   <td>{book.packagingCost}</td>
                   <td>{book.handlingCost}</td>
-                  <td>{book.amazonPlatformFee}</td>
-                  <td>{book.amazonRoyalty}</td>
-                  <td>{book.amazonUrl}</td>
-                  <td>{book.flipkartPlatformFee}</td>
-                  <td>{book.flipkartRoyalty}</td>
+                  <td>{book.amazonPlatformFee}</td> */}
+                  <td>{book.amazonRoyalty}</td>{" "}
+                  {/** 
+                  <td>{book.amazonUrl}</td> 
+                  <td>{book.flipkartPlatformFee}</td> */}
+                  <td>{book.flipkartRoyalty}</td>{" "}
+                  {/** 
                   <td>{book.flipkartUrl}</td>
-                  <td>{book.kindlePlatformFee}</td>
-                  <td>{book.kindleRoyalty}</td>
-                  <td>{book.kindleUrl}</td>
+                  <td>{book.kindlePlatformFee}</td> */}
+                  <td>{book.kindleRoyalty}</td>{" "}
+                  {/* 
+                  <td>{book.kindleUrl}</td> */}
                 </tr>
               ))}
             </tbody>

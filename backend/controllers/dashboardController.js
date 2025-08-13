@@ -35,12 +35,18 @@ const getAuthorDashboard = asyncHandler(async (req, res) => {
 
   const totalRoyaltyData = await Order.aggregate([
     {
+      $match: { author: req.user._id }, // filter orders by the logged-in author
+    },
+    {
       $group: {
         _id: null,
-        totalOrderPrice: { $sum: "$orderPrice" },
+        totalPlatformRoyalty: {
+          $sum: { $multiply: ["$platformRoyalty", "$numberofOrders"] },
+        },
       },
     },
   ]);
+  //console.log(totalRoyaltyData);
 
   if (user) {
     res.json({
@@ -48,7 +54,9 @@ const getAuthorDashboard = asyncHandler(async (req, res) => {
       totalOrders: await Order.countDocuments({ author: req.user._id }),
 
       totalRoyalty:
-        totalRoyaltyData.length > 0 ? totalRoyaltyData[0].totalOrderPrice : 0,
+        totalRoyaltyData.length > 0
+          ? totalRoyaltyData[0].totalPlatformRoyalty
+          : 0,
 
       amazonOrders: await Order.countDocuments({
         author: req.user._id,
