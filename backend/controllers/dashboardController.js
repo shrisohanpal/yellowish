@@ -11,15 +11,74 @@ const getAdminDashboard = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
   if (user.isAdmin) {
+    const totalOrdersData = await Order.aggregate([
+      {
+        $group: {
+          _id: null,
+          totalOrdersNum: { $sum: "$numberofOrders" }, // sum the field
+        },
+      },
+    ]);
+
+    // Amazon
+    const amazonOrdersData = await Order.aggregate([
+      {
+        $match: {
+          orderPlatform: "Amazon", // filter by platform also
+        },
+      }, // filter by author & orderPlatform
+      {
+        $group: {
+          _id: null,
+          amazonOrdersNum: { $sum: "$numberofOrders" }, // sum the field
+        },
+      },
+    ]);
+
+    // Flipkart
+    const flipkartOrdersData = await Order.aggregate([
+      {
+        $match: {
+          orderPlatform: "Flipkart", // filter by platform also
+        },
+      }, // filter by author & orderPlatform
+      {
+        $group: {
+          _id: null,
+          flipkartOrdersNum: { $sum: "$numberofOrders" }, // sum the field
+        },
+      },
+    ]);
+
+    // Kindle
+    const kindleOrdersData = await Order.aggregate([
+      {
+        $match: {
+          orderPlatform: "Kindle", // filter by platform also
+        },
+      }, // filter by author & orderPlatform
+      {
+        $group: {
+          _id: null,
+          kindleOrdersNum: { $sum: "$numberofOrders" }, // sum the field
+        },
+      },
+    ]);
+
     res.json({
       totalBooks: await Book.countDocuments({}),
       totalUsers: await User.countDocuments({}),
-      totalOrders: await Order.countDocuments({}),
-      amazonOrders: await Order.countDocuments({ orderPlatform: "Amazon" }),
-      flipkartOrders: await Order.countDocuments({
-        orderPlatform: "Flipkart",
-      }),
-      kindleOrders: await Order.countDocuments({ orderPlatform: "Kindle" }),
+      totalOrders:
+        totalOrdersData.length > 0 ? totalOrdersData[0].totalOrdersNum : 0, //await Order.countDocuments({}),
+      amazonOrders:
+        amazonOrdersData.length > 0 ? amazonOrdersData[0].amazonOrdersNum : 0,
+      //await Order.countDocuments({ orderPlatform: "Amazon" }),
+      flipkartOrders:
+        flipkartOrdersData.length > 0
+          ? flipkartOrdersData[0].flipkartOrdersNum
+          : 0,
+      kindleOrders:
+        kindleOrdersData.length > 0 ? kindleOrdersData[0].kindleOrdersNum : 0, //await Order.countDocuments({ orderPlatform: "Kindle" }),
     });
   } else {
     res.status(404);
